@@ -1,0 +1,1 @@
+{"schemaVersion":1,"id":"nether_roof_smoke","version":"1","name":"Nether Roof Development Smoke Check","environment":"server","entrypoints":{"main":["se.koda.netherroof.smoke.SmokeCheck"]}}

@@ -1,0 +1,26 @@
+// Opt-in development check. This source set is never included in the release jar.
+sourceSets {
+    smoke {
+        java.srcDir 'verification/smoke/java'
+        resources.srcDir 'verification/smoke/resources'
+        compileClasspath += sourceSets.main.compileClasspath
+    }
+}
+def smokeJar = tasks.register('smokeJar', Jar) {
+    archiveClassifier = 'smoke'
+    from sourceSets.smoke.output
+}
+dependencies {
+    runtimeOnly files(smokeJar)
+    runtimeOnly files('verification/amplified-nether.jar')
+}
+loom {
+    runs {
+        server {
+            runDir 'run-smoke'
+            vmArg '-Dmixin.debug.verbose=true'
+            programArg '--nogui'
+        }
+    }
+}
+tasks.named('runServer') { dependsOn smokeJar }
